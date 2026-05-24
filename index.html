@@ -35,82 +35,122 @@
     </header>
 
     <main>
-      <section class="overview">
-        <div class="overview-card">
-          <span class="overview-chip">Algorithm categories</span>
-          <h2>A graphical landing page for AI concepts</h2>
-          <p>The page highlights the most important AI algorithm families, from supervised models to deep learning, reinforcement learning, search and NLP.</p>
-        </div>
-        <div class="overview-list">
-          <article class="feature-card">
-            <h3>Visual categories</h3>
-            <p>See how AI, ML, DL, RL, NLP, and CV relate through a simple illustration and grouped cards.</p>
-          </article>
-          <article class="feature-card">
-            <h3>Algorithm gallery</h3>
-            <p>Each algorithm is named with a short description so the page is easier to scan and remember.</p>
-          </article>
-          <article class="feature-card">
-            <h3>Modern presentation</h3>
-            <p>A clean interface with gradients, soft shadows, and layout designed for learning or sharing.</p>
-          </article>
-        </div>
+      <section class="dashboard-overview">
+        <article class="metric-card">
+          <p class="metric-label">Categories</p>
+          <h3>6 algorithm families</h3>
+          <p>Quickly compare supervised, unsupervised, deep, reinforcement, search, and NLP systems.</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-label">Techniques</p>
+          <h3>30+ techniques</h3>
+          <p>Explore classic and modern AI methods across prediction, clustering, optimization, and text.</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-label">Interactions</p>
+          <h3>Click to inspect</h3>
+          <p>Select any algorithm family and the dashboard updates the visual detail panel.</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-label">Dashboard</p>
+          <h3>Data-driven look</h3>
+          <p>A landing page designed like a product or analytics dashboard for faster learning.</p>
+        </article>
       </section>
 
-      <section id="algorithms" class="algorithm-section">
-        <div class="algo-panel">
-          <div class="section-header">
-            <div>
-              <h2>AI algorithm gallery</h2>
-              <p>Browse key algorithms by family and see visual patterns that match their strengths.</p>
+      <section class="dashboard-grid">
+        <aside class="dashboard-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-header">
+              <p class="overview-chip">Algorithm menu</p>
+              <h3>AI families</h3>
             </div>
-          </div>
-          <nav class="algo-menu">
-            <button class="algo-menu-item selected" data-algo="supervised">Supervised Learning</button>
-            <button class="algo-menu-item" data-algo="deep">Deep Learning</button>
-            <button class="algo-menu-item" data-algo="unsupervised">Unsupervised Learning</button>
-            <button class="algo-menu-item" data-algo="reinforcement">Reinforcement Learning</button>
-            <button class="algo-menu-item" data-algo="search">Search & Optimization</button>
-            <button class="algo-menu-item" data-algo="nlp">Natural Language</button>
-          </nav>
-        </div>
-
-        <div class="algo-display">
-          <div class="display-header">
-            <div class="algo-icon algo-display-icon">📈</div>
-            <div>
-              <span class="overview-chip">Selected algorithm</span>
-              <h3 id="display-title">Supervised Learning</h3>
-              <p id="display-desc">Use labeled examples to learn predictions and classifications.</p>
-            </div>
+            <nav class="algo-menu">
+              <button class="algo-menu-item selected" data-algo="supervised">Supervised Learning</button>
+              <button class="algo-menu-item" data-algo="deep">Deep Learning</button>
+              <button class="algo-menu-item" data-algo="unsupervised">Unsupervised Learning</button>
+              <button class="algo-menu-item" data-algo="reinforcement">Reinforcement Learning</button>
+              <button class="algo-menu-item" data-algo="search">Search & Optimization</button>
+              <button class="algo-menu-item" data-algo="nlp">Natural Language</button>
+            </nav>
           </div>
 
-          <div class="display-grid">
-            <div class="display-card">
-              <h4>Key techniques</h4>
-              <ul id="display-list">
-                <li>Linear Regression</li>
-                <li>Logistic Regression</li>
-                <li>Decision Trees</li>
-                <li>Random Forest</li>
-                <li>Support Vector Machines</li>
-              </ul>
+          <div class="sidebar-card">
+            <div class="sidebar-header">
+              <p class="overview-chip">Quick stats</p>
+              <h3>Dashboard insights</h3>
             </div>
+            <ul class="stats-list">
+              <li><span>6</span> Algorithm families</li>
+              <li><span>30+</span> Techniques covered</li>
+              <li><span>4</span> Visualization nodes</li>
+            </ul>
+          </div>
+        </aside>
 
-            <div class="display-card display-graph-card">
-              <h4>Graphical view</h4>
-              <div class="display-canvas" id="display-canvas">
-                <div class="canvas-node" data-node="1"><span>Regression</span></div>
-                <div class="canvas-node" data-node="2"><span>Classification</span></div>
-                <div class="canvas-node" data-node="3"><span>Decision Tree</span></div>
-                <div class="canvas-node" data-node="4"><span>Ensemble</span></div>
+        <div class="dashboard-main">
+          <section id="algorithms" class="algorithm-section">
+            <div class="algo-display">
+              <div class="display-header">
+                <div class="algo-icon algo-display-icon">📈</div>
+                <div>
+                  <span class="overview-chip">Selected algorithm</span>
+                  <h3 id="display-title">Supervised Learning</h3>
+                  <p id="display-desc">Use labeled examples to learn predictions and classifications.</p>
+                </div>
+              </div>
+
+              <div class="display-grid">
+                <div class="display-card">
+                  <h4>Key techniques</h4>
+                  <ul id="display-list">
+                    <li>Linear Regression</li>
+                    <li>Logistic Regression</li>
+                    <li>Decision Trees</li>
+                    <li>Random Forest</li>
+                    <li>Support Vector Machines</li>
+                  </ul>
+                </div>
+
+                <div class="display-card display-graph-card">
+                  <h4>Graphical view</h4>
+                  <div class="display-canvas" id="display-canvas">
+                    <div class="canvas-node" data-node="1"><span>Regression</span></div>
+                    <div class="canvas-node" data-node="2"><span>Classification</span></div>
+                    <div class="canvas-node" data-node="3"><span>Decision Tree</span></div>
+                    <div class="canvas-node" data-node="4"><span>Ensemble</span></div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
+
+          <section id="flow" class="section-flow">
+            <div class="flow-copy">
+              <h2>From concept to algorithm</h2>
+              <p>Start with the idea of intelligent systems, then explore what each family does and when to use it.</p>
+            </div>
+            <div class="flow-panels">
+              <div class="flow-step">
+                <span>1</span>
+                <h3>Input</h3>
+                <p>Choose data type: labeled, unlabeled, sequential, or environment-based.</p>
+              </div>
+              <div class="flow-step">
+                <span>2</span>
+                <h3>Algorithm</h3>
+                <p>Select the family that matches your goal: prediction, clustering, generation, or control.</p>
+              </div>
+              <div class="flow-step">
+                <span>3</span>
+                <h3>Outcome</h3>
+                <p>Produce predictions, visual patterns, natural language outputs, or learned policies.</p>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
-
-      <section id="flow" class="section-flow">
+    </main>
         <div class="flow-copy">
           <h2>From concept to algorithm</h2>
           <p>Start with the idea of intelligent systems, then explore what each family does and when to use it.</p>
