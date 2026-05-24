@@ -57,89 +57,57 @@
         </div>
       </section>
 
-      <section id="algorithms" class="algorithm-grid">
-        <div class="section-header">
-          <h2>AI algorithm gallery</h2>
-          <p>Browse key algorithms by family and see visual patterns that match their strengths.</p>
+      <section id="algorithms" class="algorithm-section">
+        <div class="algo-panel">
+          <div class="section-header">
+            <div>
+              <h2>AI algorithm gallery</h2>
+              <p>Browse key algorithms by family and see visual patterns that match their strengths.</p>
+            </div>
+          </div>
+          <nav class="algo-menu">
+            <button class="algo-menu-item selected" data-algo="supervised">Supervised Learning</button>
+            <button class="algo-menu-item" data-algo="deep">Deep Learning</button>
+            <button class="algo-menu-item" data-algo="unsupervised">Unsupervised Learning</button>
+            <button class="algo-menu-item" data-algo="reinforcement">Reinforcement Learning</button>
+            <button class="algo-menu-item" data-algo="search">Search & Optimization</button>
+            <button class="algo-menu-item" data-algo="nlp">Natural Language</button>
+          </nav>
         </div>
 
-        <article class="algo-card algo-primary">
-          <div class="algo-icon">📈</div>
-          <h3>Supervised Learning</h3>
-          <p>Use labeled examples to learn predictions and classifications.</p>
-          <ul>
-            <li>Linear Regression</li>
-            <li>Logistic Regression</li>
-            <li>Decision Trees</li>
-            <li>Random Forest</li>
-            <li>Support Vector Machines</li>
-          </ul>
-        </article>
+        <div class="algo-display">
+          <div class="display-header">
+            <div class="algo-icon algo-display-icon">📈</div>
+            <div>
+              <span class="overview-chip">Selected algorithm</span>
+              <h3 id="display-title">Supervised Learning</h3>
+              <p id="display-desc">Use labeled examples to learn predictions and classifications.</p>
+            </div>
+          </div>
 
-        <article class="algo-card algo-secondary">
-          <div class="algo-icon">🧠</div>
-          <h3>Deep Learning</h3>
-          <p>Train neural networks for images, text, sequences, and generative models.</p>
-          <ul>
-            <li>Feedforward Neural Networks</li>
-            <li>Convolutional Neural Networks</li>
-            <li>Recurrent Neural Networks</li>
-            <li>Transformers</li>
-            <li>GANs</li>
-          </ul>
-        </article>
+          <div class="display-grid">
+            <div class="display-card">
+              <h4>Key techniques</h4>
+              <ul id="display-list">
+                <li>Linear Regression</li>
+                <li>Logistic Regression</li>
+                <li>Decision Trees</li>
+                <li>Random Forest</li>
+                <li>Support Vector Machines</li>
+              </ul>
+            </div>
 
-        <article class="algo-card algo-accent">
-          <div class="algo-icon">🔍</div>
-          <h3>Unsupervised Learning</h3>
-          <p>Discover structure in unlabeled data with clustering and dimensionality reduction.</p>
-          <ul>
-            <li>K-Means Clustering</li>
-            <li>Hierarchical Clustering</li>
-            <li>PCA</li>
-            <li>t-SNE</li>
-            <li>Gaussian Mixture Models</li>
-          </ul>
-        </article>
-
-        <article class="algo-card algo-highlight">
-          <div class="algo-icon">🎯</div>
-          <h3>Reinforcement Learning</h3>
-          <p>Learn policies from reward signals to make decisions in dynamic systems.</p>
-          <ul>
-            <li>Q-Learning</li>
-            <li>Deep Q-Network</li>
-            <li>Policy Gradient</li>
-            <li>Actor-Critic</li>
-            <li>Proximal Policy Optimization</li>
-          </ul>
-        </article>
-
-        <article class="algo-card algo-light">
-          <div class="algo-icon">⚙️</div>
-          <h3>Search & Optimization</h3>
-          <p>Solve optimization problems and search for the best path, model, or parameters.</p>
-          <ul>
-            <li>Gradient Descent</li>
-            <li>Genetic Algorithms</li>
-            <li>A* Search</li>
-            <li>Simulated Annealing</li>
-            <li>Particle Swarm Optimization</li>
-          </ul>
-        </article>
-
-        <article class="algo-card algo-muted">
-          <div class="algo-icon">💬</div>
-          <h3>Natural Language</h3>
-          <p>Build text systems with embeddings, sequence models, and attention-based transformers.</p>
-          <ul>
-            <li>Bag of Words</li>
-            <li>Word Embeddings</li>
-            <li>Sequence-to-Sequence</li>
-            <li>Attention</li>
-            <li>Transformers</li>
-          </ul>
-        </article>
+            <div class="display-card display-graph-card">
+              <h4>Graphical view</h4>
+              <div class="display-canvas" id="display-canvas">
+                <div class="canvas-node" data-node="1"><span>Regression</span></div>
+                <div class="canvas-node" data-node="2"><span>Classification</span></div>
+                <div class="canvas-node" data-node="3"><span>Decision Tree</span></div>
+                <div class="canvas-node" data-node="4"><span>Ensemble</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section id="flow" class="section-flow">
@@ -167,5 +135,81 @@
       </section>
     </main>
   </div>
+  <script>
+    const algoData = {
+      supervised: {
+        title: "Supervised Learning",
+        icon: "📈",
+        desc: "Use labeled examples to learn predictions and classifications.",
+        techniques: ["Linear Regression", "Logistic Regression", "Decision Trees", "Random Forest", "Support Vector Machines"],
+        nodes: ["Regression", "Classification", "Decision Tree", "Ensemble"]
+      },
+      deep: {
+        title: "Deep Learning",
+        icon: "🧠",
+        desc: "Train neural networks for images, text, sequences, and generative models.",
+        techniques: ["Feedforward Neural Networks", "Convolutional Neural Networks", "Recurrent Neural Networks", "Transformers", "GANs"],
+        nodes: ["CNN", "RNN", "Transformer", "GAN"]
+      },
+      unsupervised: {
+        title: "Unsupervised Learning",
+        icon: "🔍",
+        desc: "Discover structure in unlabeled data with clustering and dimensionality reduction.",
+        techniques: ["K-Means Clustering", "Hierarchical Clustering", "PCA", "t-SNE", "Gaussian Mixture Models"],
+        nodes: ["Clustering", "PCA", "t-SNE", "Density"]
+      },
+      reinforcement: {
+        title: "Reinforcement Learning",
+        icon: "🎯",
+        desc: "Learn policies from reward signals to make decisions in dynamic systems.",
+        techniques: ["Q-Learning", "Deep Q-Network", "Policy Gradient", "Actor-Critic", "Proximal Policy Optimization"],
+        nodes: ["Reward", "Policy", "Value", "Actor-Critic"]
+      },
+      search: {
+        title: "Search & Optimization",
+        icon: "⚙️",
+        desc: "Solve optimization problems and search for the best path, model, or parameters.",
+        techniques: ["Gradient Descent", "Genetic Algorithms", "A* Search", "Simulated Annealing", "Particle Swarm Optimization"],
+        nodes: ["Gradient", "Evolution", "Path Search", "Swarm"]
+      },
+      nlp: {
+        title: "Natural Language",
+        icon: "💬",
+        desc: "Build text systems with embeddings, sequence models, and attention-based transformers.",
+        techniques: ["Bag of Words", "Word Embeddings", "Sequence-to-Sequence", "Attention", "Transformers"],
+        nodes: ["Embeddings", "Seq2Seq", "Attention", "Transformers"]
+      }
+    };
+
+    const displayTitle = document.getElementById("display-title");
+    const displayDesc = document.getElementById("display-desc");
+    const displayList = document.getElementById("display-list");
+    const displayCanvas = document.getElementById("display-canvas");
+    const displayIcon = document.querySelector(".algo-display-icon");
+    const buttons = Array.from(document.querySelectorAll(".algo-menu-item"));
+
+    function updateAlgorithm(key) {
+      const data = algoData[key];
+      if (!data) return;
+      displayTitle.textContent = data.title;
+      displayDesc.textContent = data.desc;
+      displayIcon.textContent = data.icon;
+
+      displayList.innerHTML = data.techniques.map(item => `<li>${item}</li>`).join("");
+      displayCanvas.querySelectorAll(".canvas-node").forEach((node, index) => {
+        node.querySelector("span").textContent = data.nodes[index] || "...";
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        buttons.forEach(btn => btn.classList.remove("selected"));
+        button.classList.add("selected");
+        updateAlgorithm(button.dataset.algo);
+      });
+    });
+
+    updateAlgorithm("supervised");
+  </script>
 </body>
 </html>

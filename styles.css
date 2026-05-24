@@ -225,10 +225,128 @@ body {
   line-height: 1.75;
 }
 
-.algorithm-grid {
+.algorithm-section {
   display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
   gap: 24px;
   margin-bottom: 44px;
+}
+
+.algo-panel {
+  display: grid;
+  gap: 24px;
+}
+
+.algo-menu {
+  display: grid;
+  gap: 12px;
+}
+
+.algo-menu-item {
+  width: 100%;
+  padding: 16px 18px;
+  text-align: left;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f4f9ff;
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.algo-menu-item:hover,
+.algo-menu-item.selected {
+  background: rgba(65, 122, 255, 0.18);
+  border-color: rgba(91, 146, 255, 0.4);
+  transform: translateX(2px);
+}
+
+.algo-display {
+  display: grid;
+  gap: 24px;
+}
+
+.display-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.algo-display-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f4f9ff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.display-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.display-card {
+  padding: 28px;
+  border-radius: 30px;
+  background: rgba(10, 18, 36, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 28px 62px rgba(0, 0, 0, 0.21);
+}
+
+.display-card h4 {
+  margin: 0 0 18px;
+  font-size: 1.2rem;
+}
+
+.display-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #e7efff;
+  line-height: 1.9;
+}
+
+.display-card ul li {
+  margin-bottom: 10px;
+}
+
+.display-graph-card {
+  min-height: 300px;
+}
+
+.display-canvas {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-height: 260px;
+  padding: 20px;
+  border-radius: 28px;
+  background: radial-gradient(circle at top left, rgba(92, 148, 255, 0.18), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(255, 170, 241, 0.14), transparent 40%),
+    linear-gradient(180deg, rgba(15, 26, 46, 0.96), rgba(10, 18, 34, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.canvas-node {
+  display: grid;
+  place-items: center;
+  min-height: 100px;
+  border-radius: 22px;
+  padding: 16px;
+  text-align: center;
+  color: #eef3ff;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.14);
 }
 
 .section-header {
