@@ -1,9 +1,36 @@
 :root {
-  color-scheme: dark;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, rgba(88, 194, 255, 0.14), transparent 28%),
-    linear-gradient(180deg, #050914 0%, #091325 35%, #0f1e33 100%);
-  color: #edf2ff;
+  color-scheme: dark;
+  --bg: #050914;
+  --bg-alt: #091325;
+  --surface: rgba(10, 18, 36, 0.96);
+  --surface-soft: rgba(255, 255, 255, 0.06);
+  --surface-strong: rgba(255, 255, 255, 0.1);
+  --text: #edf2ff;
+  --muted: #c2cee7;
+  --muted-soft: rgba(255, 255, 255, 0.72);
+  --accent: #5c8dff;
+  --accent-soft: rgba(92, 148, 255, 0.18);
+  --border: rgba(255, 255, 255, 0.12);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --shadow: rgba(0, 0, 0, 0.2);
+}
+
+body.light {
+  color-scheme: light;
+  --bg: #f7f9ff;
+  --bg-alt: #eef3ff;
+  --surface: rgba(255, 255, 255, 0.98);
+  --surface-soft: rgba(14, 25, 47, 0.06);
+  --surface-strong: rgba(14, 25, 47, 0.08);
+  --text: #091322;
+  --muted: #52617f;
+  --muted-soft: rgba(9, 19, 38, 0.72);
+  --accent: #4f62d9;
+  --accent-soft: rgba(79, 98, 217, 0.16);
+  --border: rgba(15, 23, 42, 0.12);
+  --card-border: rgba(15, 23, 42, 0.08);
+  --shadow: rgba(15, 23, 42, 0.12);
 }
 
 * {
@@ -13,12 +40,90 @@
 body {
   margin: 0;
   min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+  color: var(--text);
 }
 
 .page-shell {
   max-width: 1180px;
   margin: 0 auto;
   padding: 36px 28px 52px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 16px 22px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px var(--shadow);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, var(--accent), #1f56ff);
+}
+
+.brand-label {
+  margin: 0;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.search-bar {
+  display: flex;
+}
+
+.search-bar input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  outline: none;
+  font-size: 0.96rem;
+}
+
+.search-bar input::placeholder {
+  color: var(--muted);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle {
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  cursor: pointer;
 }
 
 .hero {
@@ -36,8 +141,8 @@ body {
 .eyebrow {
   margin: 0 0 18px;
   text-transform: uppercase;
-  letter-spacing: 0.26em;
-  color: #89b9ff;
+  letter-spacing: 0.24em;
+  color: var(--accent);
   font-size: 0.82rem;
 }
 
@@ -51,7 +156,7 @@ body {
 .hero-copy p {
   max-width: 640px;
   margin: 24px 0 0;
-  color: #d5ddff;
+  color: var(--muted);
   line-height: 1.76;
   font-size: 1.05rem;
 }
@@ -69,22 +174,22 @@ body {
   justify-content: center;
   padding: 14px 24px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border);
   text-decoration: none;
-  color: #f5f8ff;
-  background: rgba(38, 115, 255, 0.18);
+  color: var(--text);
+  background: rgba(92, 141, 255, 0.16);
   backdrop-filter: blur(12px);
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
 
 .button:hover {
   transform: translateY(-1px);
-  background: rgba(53, 145, 255, 0.24);
-  border-color: rgba(85, 185, 255, 0.3);
+  background: rgba(92, 141, 255, 0.24);
+  border-color: rgba(92, 141, 255, 0.4);
 }
 
 .button-secondary {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .hero-visual {
@@ -171,10 +276,10 @@ body {
 
 .overview-card {
   padding: 32px;
-  background: rgba(10, 18, 36, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--card-border);
   border-radius: 32px;
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 28px 60px var(--shadow);
 }
 
 .overview-chip {
@@ -207,8 +312,8 @@ body {
 }
 
 .feature-card {
-  background: rgba(9, 16, 33, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface);
+  border: 1px solid var(--card-border);
   border-radius: 26px;
   padding: 26px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
@@ -359,9 +464,9 @@ body {
 .metric-card {
   padding: 26px;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 24px 48px var(--shadow);
 }
 
 .metric-label {
@@ -398,9 +503,9 @@ body {
 .sidebar-card {
   padding: 26px;
   border-radius: 30px;
-  background: rgba(10, 18, 36, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 28px 62px rgba(0, 0, 0, 0.21);
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 28px 62px var(--shadow);
 }
 
 .sidebar-header h3 {
@@ -523,18 +628,23 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.canvas-node {
+.canvas-node,
+.diagram-node {
   display: grid;
   place-items: center;
   min-height: 100px;
   border-radius: 22px;
   padding: 16px;
   text-align: center;
-  color: #eef3ff;
+  color: var(--text);
   font-weight: 700;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.14);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 18px 30px var(--shadow);
+}
+
+.diagram-node {
+  grid-column: span 2;
 }
 
 .section-header {
@@ -656,9 +766,8 @@ body {
 }
 
 @media (max-width: 1030px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
+  .topbar,
+  .hero,
   .dashboard-grid {
     grid-template-columns: 1fr;
   }

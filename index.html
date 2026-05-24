@@ -6,8 +6,25 @@
   <title>VisualAI Journey</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="dark">
   <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">VJ</div>
+        <div>
+          <p class="brand-label">VisualAI Journey</p>
+          <p class="brand-subtitle">AI learning dashboard</p>
+        </div>
+      </div>
+      <div class="search-bar">
+        <input type="search" placeholder="Search algorithms or use cases..." />
+      </div>
+      <div class="top-actions">
+        <button id="theme-toggle" class="theme-toggle">Light</button>
+        <button class="button button-secondary">Reset</button>
+      </div>
+    </header>
+
     <header class="hero">
       <div class="hero-copy">
         <p class="eyebrow">VisualAI Journey</p>
@@ -189,7 +206,14 @@
         icon: "🧠",
         desc: "Train neural networks for images, text, sequences, and generative models.",
         techniques: ["Feedforward Neural Networks", "Convolutional Neural Networks", "Recurrent Neural Networks", "Transformers", "GANs"],
-        nodes: ["CNN", "RNN", "Transformer", "GAN"]
+        nodes: ["CNN", "RNN", "Transformer", "GAN"],
+        diagramHtml: `
+          <div class="diagram-node">Input Data</div>
+          <div class="diagram-node">Tensorization</div>
+          <div class="canvas-node"><span>Convolution</span></div>
+          <div class="canvas-node"><span>Attention</span></div>
+          <div class="diagram-node">Output Prediction</div>
+        `
       },
       unsupervised: {
         title: "Unsupervised Learning",
@@ -236,10 +260,35 @@
       displayIcon.textContent = data.icon;
 
       displayList.innerHTML = data.techniques.map(item => `<li>${item}</li>`).join("");
-      displayCanvas.querySelectorAll(".canvas-node").forEach((node, index) => {
-        node.querySelector("span").textContent = data.nodes[index] || "...";
-      });
+
+      if (data.diagramHtml) {
+        displayCanvas.innerHTML = data.diagramHtml;
+      } else {
+        displayCanvas.innerHTML = `
+          <div class="canvas-node"><span>${data.nodes[0] || "..."}</span></div>
+          <div class="canvas-node"><span>${data.nodes[1] || "..."}</span></div>
+          <div class="canvas-node"><span>${data.nodes[2] || "..."}</span></div>
+          <div class="canvas-node"><span>${data.nodes[3] || "..."}</span></div>
+        `;
+      }
     }
+
+    const themeToggle = document.getElementById("theme-toggle");
+
+    function setTheme(theme) {
+      document.body.classList.toggle("light", theme === "light");
+      document.body.classList.toggle("dark", theme === "dark");
+      themeToggle.textContent = theme === "light" ? "Dark" : "Light";
+      localStorage.setItem("preferredTheme", theme);
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const nextTheme = document.body.classList.contains("light") ? "dark" : "light";
+      setTheme(nextTheme);
+    });
+
+    const savedTheme = localStorage.getItem("preferredTheme") || "dark";
+    setTheme(savedTheme);
 
     buttons.forEach(button => {
       button.addEventListener("click", () => {
