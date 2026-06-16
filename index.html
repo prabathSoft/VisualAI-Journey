@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Algorithm Learning Lab</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      height: 100vh;
+    }
+
+    #sidebar {
+      width: 280px;
+      background: #020617;
+      border-right: 1px solid #1f2937;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #top-bar {
+      padding: 12px 16px;
+      border-bottom: 1px solid #1f2937;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #content {
+      display: grid;
+      grid-template-columns: 360px 1.2fr 1.2fr;
+      gap: 12px;
+      padding: 12px;
+      box-sizing: border-box;
+      height: calc(100vh - 52px);
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      margin: 16px 0 8px;
+    }
+
+    .algo-group {
+      margin-bottom: 12px;
+    }
+
+    .algo-group-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 4px;
+    }
+
+    .algo-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .algo-list li {
+      margin-bottom: 4px;
+    }
+
+    .algo-btn {
+      width: 100%;
+      text-align: left;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: none;
+      background: #111827;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s;
+    }
+
+    .algo-btn:hover {
+      background: #1f2937;
+      transform: translateY(-1px);
+    }
+
+    .algo-btn.active {
+      background: #4f46e5;
+    }
+
+    .panel {
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid #1f2937;
+      padding: 12px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .panel h2 {
+      font-size: 0.95rem;
+      margin: 0 0 8px;
+      color: #e5e7eb;
+    }
+
+    .panel-subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+
+    .form-row {
+      margin-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 2px;
+      color: #9ca3af;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.8rem;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      font-size: 0.8rem;
+      color: #e5e7eb;
+    }
+
+    button.primary {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      background: #4f46e5;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button.primary:hover {
+      background: #6366f1;
+    }
+
+    #viz-container {
+      position: relative;
+      width: 100%;
+      height: 60%;
+      background: radial-gradient(circle at top, #1f2937, #020617);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    #viz-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #viz-overlay {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    #output-log {
+      font-size: 0.8rem;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      padding: 8px;
+      height: 120px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      background: #111827;
+      color: #9ca3af;
+      margin-left: 6px;
+    }
+
+    hr {
+      border-color: #1f2937;
+      margin: 10px 0;
+    }
+
+    #model-diagram {
+      width: 100%;
+      height: 40%;
+      border-radius: 8px;
+      border: 1px dashed #374151;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-align: center;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    #guide-steps {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #e5e7eb;
+      white-space: pre-wrap;
+    }
+
+    .guide-step-title {
+      font-weight: 600;
+      color: #a5b4fc;
+    }
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <h1>AI Algorithm Lab</h1>
+    <div class="panel-subtitle">
+      For beginners: pick an algorithm, follow the steps, and watch it work.
+    </div>
+
+    <div class="section-title">Algorithm Catalog</div>
+
+    <div class="algo-group">
+      <div class="algo-group-title">Supervised Learning</div>
+      <ul class="algo-list">
+        <li><button class="algo-btn" data-algo="svm">Support Vector Machine (SVM)</button></li>
+        <li><button class="algo-btn" data-algo="linear_regression">Linear Regression</button></li>
+        <li><button class="algo-btn" data-algo="logistic_regression">Logistic Regression</button></li>
+        <li><button class="algo-btn" data-algo="decision_tree">Decision Tree</button></li>
+        <li><button class="algo-btn" data-algo="random_forest">Random Forest</button></li>
+        <li><button class="algo-btn" data-algo="knn">k-Nearest Neighbors (k-NN)</button></li>
+      </ul>
+    </div>
+
+    <div class="algo-group">
+      <div class="algo-group-title">Unsupervised Learning</div>
+      <ul class="algo-list">
+        <li><button class="algo-btn" data-algo="kmeans">K-Means Clustering</button></li>
+        <li><button class="algo-btn" data-algo="dbscan">DBSCAN</button></li>
+        <li><button class="algo-btn" data-algo="hierarchical">Hierarchical Clustering</button></li>
+        <li><button class="algo-btn" data-algo="pca">PCA</button></li>
+      </ul>
+    </div>
+
+    <div class="algo-group">
+      <div class="algo-group-title">Reinforcement Learning</div>
+      <ul class="algo-list">
+        <li><button class="algo-btn" data-algo="q_learning">Q-Learning</button></li>
+        <li><button class="algo-btn" data-algo="dqn">Deep Q-Network (DQN)</button></li>
+        <li><button class="algo-btn" data-algo="ppo">PPO</button></li>
+      </ul>
+    </div>
+
+    <div class="algo-group">
+      <div class="algo-group-title">Search & Optimization</div>
+      <ul class="algo-list">
+        <li><button class="algo-btn" data-algo="a_star">A* Search</button></li>
+        <li><button class="algo-btn" data-algo="hill_climbing">Hill Climbing</button></li>
+        <li><button class="algo-btn" data-algo="genetic">Genetic Algorithm</button></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="main">
+    <div id="top-bar">
+      <div>
+        <strong>Selected Algorithm:</strong>
+        <span id="selected-algo-name">None</span>
+        <span class="badge" id="algo-category-badge">–</span>
+      </div>
+      <div style="font-size:0.8rem;color:#9ca3af;">
+        Designed for non‑experts: read, click, and observe.
+      </div>
+    </div>
+
+    <div id="content">
+      <!-- LEFT: CONFIG -->
+      <section class="panel">
+        <h2>Configuration & Dataset</h2>
+        <div class="panel-subtitle">
+          Step 1: Choose values. Step 2: Upload data (optional). Step 3: Run.
+        </div>
+
+        <div id="algo-params"></div>
+
+        <hr />
+
+        <div id="dataset-section">
+          <div class="form-row">
+            <label>Upload Dataset (CSV)</label>
+            <input type="file" id="dataset-input" accept=".csv" />
+          </div>
+          <div class="form-row">
+            <label>Target Column (for supervised tasks)</label>
+            <input type="text" id="target-column" placeholder="e.g. label, y" />
+          </div>
+        </div>
+
+        <button class="primary" id="run-simulation-btn">Run Simulation</button>
+
+        <div class="form-row" style="margin-top:10px;">
+          <label>Simulation Log / Output</label>
+          <div id="output-log">No simulation run yet.</div>
+        </div>
+      </section>
+
+      <!-- MIDDLE: MODEL DESIGN + GUIDE -->
+      <section class="panel">
+        <h2>Model Design (Visual Idea)</h2>
+        <div class="panel-subtitle">
+          A simple picture of how this algorithm “thinks”.
+        </div>
+        <div id="model-diagram">
+          Select an algorithm on the left to see a simple model diagram here.
+        </div>
+
+        <hr />
+
+        <h2>Step‑by‑Step Guide (For Beginners)</h2>
+        <div class="panel-subtitle">
+          Read this first, then press “Run Simulation”.
+        </div>
+        <div id="guide-steps">
+          1. Choose an algorithm on the left.  
+          2. Read the explanation here.  
+          3. Adjust the values in the Configuration panel.  
+          4. (Optional) Upload a CSV file.  
+          5. Click “Run Simulation” and watch the animation on the right.
+        </div>
+      </section>
+
+      <!-- RIGHT: VIZ -->
+      <section class="panel">
+        <h2>Graphical Simulation</h2>
+        <div class="panel-subtitle">
+          Watch how the algorithm behaves step by step.
+        </div>
+
+        <div id="viz-container">
+          <canvas id="viz-canvas"></canvas>
+          <div id="viz-overlay">
+            <div><strong>Visualization Status:</strong> <span id="viz-status">Idle</span></div>
+            <div id="viz-hint">Select an algorithm, follow the guide, then click “Run Simulation”.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const algoButtons = document.querySelectorAll(".algo-btn");
+    const selectedAlgoNameEl = document.getElementById("selected-algo-name");
+    const algoCategoryBadgeEl = document.getElementById("algo-category-badge");
+    const outputLogEl = document.getElementById("output-log");
+    const vizStatusEl = document.getElementById("viz-status");
+    const vizHintEl = document.getElementById("viz-hint");
+    const runBtn = document.getElementById("run-simulation-btn");
+    const paramsContainer = document.getElementById("algo-params");
+    const modelDiagramEl = document.getElementById("model-diagram");
+    const guideStepsEl = document.getElementById("guide-steps");
+    const canvas = document.getElementById("viz-canvas");
+    const ctx = canvas.getContext("2d");
+
+    let selectedAlgo = null;
+
+    const algoMeta = {
+      svm: { name: "Support Vector Machine (SVM)", category: "Supervised" },
+      linear_regression: { name: "Linear Regression", category: "Supervised" },
+      logistic_regression: { name: "Logistic Regression", category: "Supervised" },
+      decision_tree: { name: "Decision Tree", category: "Supervised" },
+      random_forest: { name: "Random Forest", category: "Supervised" },
+      knn: { name: "k-Nearest Neighbors (k-NN)", category: "Supervised" },
+
+      kmeans: { name: "K-Means Clustering", category: "Unsupervised" },
+      dbscan: { name: "DBSCAN", category: "Unsupervised" },
+      hierarchical: { name: "Hierarchical Clustering", category: "Unsupervised" },
+      pca: { name: "PCA", category: "Unsupervised" },
+
+      q_learning: { name: "Q-Learning", category: "Reinforcement" },
+      dqn: { name: "Deep Q-Network (DQN)", category: "Reinforcement" },
+      ppo: { name: "Proximal Policy Optimization (PPO)", category: "Reinforcement" },
+
+      a_star: { name: "A* Search", category: "Search & Optimization" },
+      hill_climbing: { name: "Hill Climbing", category: "Search & Optimization" },
+      genetic: { name: "Genetic Algorithm", category: "Search & Optimization" }
+    };
+
+    const paramConfigs = {
+      svm: [
+        { id: "C", label: "Regularization (C)", type: "number", step: "0.1", value: "1.0" },
+        { id: "kernel", label: "Kernel", type: "select", options: ["linear", "rbf", "poly"] },
+        { id: "gamma", label: "Gamma", type: "text", value: "scale" }
+      ],
+      kmeans: [
+        { id: "n_clusters", label: "Number of Clusters (k)", type: "number", value: "3" },
+        { id: "max_iter", label: "Max Iterations", type: "number", value: "10" }
+      ],
+      q_learning: [
+        { id: "alpha", label: "Learning Rate (α)", type: "number", step: "0.01", value: "0.1" },
+        { id: "gamma", label: "Discount Factor (γ)", type: "number", step: "0.01", value: "0.95" },
+        { id: "epsilon", label: "Exploration Rate (ε)", type: "number", step: "0.01", value: "0.1" },
+        { id: "episodes", label: "Episodes", type: "number", value: "50" }
+      ],
+      a_star: [
+        { id: "grid_size", label: "Grid Size (NxN)", type: "number", value: "20" }
+      ],
+      linear_regression: [
+        { id: "lr", label: "Learning Rate", type: "number", step: "0.001", value: "0.01" },
+        { id: "epochs", label: "Epochs", type: "number", value: "50" }
+      ],
+      logistic_regression: [
+        { id: "lr", label: "Learning Rate", type: "number", step: "0.001", value: "0.01" },
+        { id: "epochs", label: "Epochs", type: "number", value: "50" }
+      ],
+      decision_tree: [
+        { id: "max_depth", label: "Max Depth", type: "number", value: "5" }
+      ],
+      random_forest: [
+        { id: "n_estimators", label: "Number of Trees", type: "number", value: "50" }
+      ],
+      knn: [
+        { id: "k", label: "Number of Neighbors (k)", type: "number", value: "5" }
+      ],
+      dbscan: [
+        { id: "eps", label: "Epsilon (Neighborhood Radius)", type: "number", step: "0.1", value: "0.5" },
+        { id: "min_samples", label: "Min Samples", type: "number", value: "5" }
+      ],
+      hierarchical: [
+        { id: "n_clusters", label: "Number of Clusters", type: "number", value: "3" }
+      ],
+      pca: [
+        { id: "n_components", label: "Number of Components", type: "number", value: "2" }
+      ],
+      dqn: [
+        { id: "gamma", label: "Discount Factor (γ)", type: "number", step: "0.01", value: "0.99" }
+      ],
+      ppo: [
+        { id: "clip", label: "Clip Range", type: "number", step: "0.01", value: "0.2" }
+      ],
+      hill_climbing: [
+        { id: "max_iter", label: "Max Iterations", type: "number", value: "100" }
+      ],
+      genetic: [
+        { id: "pop_size", label: "Population Size", type: "number", value: "50" }
+      ]
+    };
+
+    const modelDesignText = {
+      svm: "SVM tries to draw a straight line (or curve) that best separates two groups of points.\n\nPicture: points on a 2D plane, with a line in the middle and margins on both sides.",
+      kmeans: "K-Means groups points into k clusters.\n\nPicture: many dots on a plane, with k big dots (centers) pulling nearby points into groups.",
+      q_learning: "Q-Learning is an agent moving in a grid, learning which moves give better rewards.\n\nPicture: a small square walking on a grid, updating a table of 'how good' each move is.",
+      a_star: "A* finds the shortest path on a grid from start to goal.\n\nPicture: a maze-like grid with a highlighted path from green start to red goal.",
+      linear_regression: "Linear Regression draws a straight line through data points to best fit them.\n\nPicture: scattered dots with a line passing roughly through the middle.",
+      logistic_regression: "Logistic Regression separates two classes with a curve/line and outputs probabilities.\n\nPicture: dots of two colors with a boundary between them.",
+      decision_tree: "A Decision Tree asks a series of yes/no questions to reach a decision.\n\nPicture: a tree diagram splitting into branches with decisions at the leaves.",
+      random_forest: "Random Forest is many decision trees voting together.\n\nPicture: several small trees, each giving an answer, then a majority vote.",
+      knn: "k-NN looks at the closest neighbors to decide the label of a new point.\n\nPicture: a new point surrounded by nearby colored points.",
+      dbscan: "DBSCAN finds dense regions of points and marks isolated ones as noise.\n\nPicture: clusters of dots with some lonely dots marked as noise.",
+      hierarchical: "Hierarchical clustering builds a tree of clusters from small to big.\n\nPicture: a dendrogram (tree) showing how points merge into clusters.",
+      pca: "PCA rotates and compresses data into fewer dimensions.\n\nPicture: a cloud of points being projected onto a line.",
+      dqn: "DQN is like Q-Learning but uses a neural network to estimate values.\n\nPicture: a grid world feeding into a small neural network.",
+      ppo: "PPO improves a policy (behavior) step by step while keeping changes stable.\n\nPicture: an agent trying different actions but not changing too wildly.",
+      hill_climbing: "Hill Climbing keeps moving to better solutions until no improvement is found.\n\nPicture: a ball climbing a hill to reach the top.",
+      genetic: "Genetic Algorithm evolves a population of solutions using selection, crossover, and mutation.\n\nPicture: many candidate solutions mixing and mutating over generations."
+    };
+
+    const guideText = {
+      default:
+`1. Choose an algorithm on the left.
+2. Read what the model does in simple words.
+3. Adjust the numbers in the Configuration panel (you can keep defaults).
+4. (Optional) Upload a CSV file if you have data.
+5. Click “Run Simulation”.
+6. Watch the right panel: it will show an animation that matches the explanation.`,
+      svm:
+`You selected: Support Vector Machine (SVM)
+
+Think of SVM as:
+- Trying to draw the best possible line between two groups of points.
+
+How to use:
+1. Leave C = 1.0 if you are unsure (it controls how strict the line is).
+2. Keep kernel = "linear" for a simple straight line.
+3. Click “Run Simulation”.
+4. Watch the right side: you will see a line and two colored regions.
+5. Imagine each dot is a data point; the line is the decision boundary.`,
+      kmeans:
+`You selected: K-Means Clustering
+
+Think of K-Means as:
+- Grouping similar points into k groups (clusters).
+
+How to use:
+1. Choose how many clusters you want (k). Try 3 to start.
+2. Click “Run Simulation”.
+3. Watch the right side: points will change color as they join clusters.
+4. The bigger circles are the cluster centers moving until they settle.`,
+      q_learning:
+`You selected: Q-Learning
+
+Think of Q-Learning as:
+- A little robot learning which moves are good or bad in a grid.
+
+How to use:
+1. Keep the default values if you are new.
+2. Click “Run Simulation”.
+3. Watch the right side: the agent explores the grid and learns a path.
+4. Over time, it will find better routes to the goal.`,
+      a_star:
+`You selected: A* Search
+
+Think of A* as:
+- A smart path finder that looks for the shortest route on a grid.
+
+How to use:
+1. Keep the grid size as it is (20 is fine).
+2. Click “Run Simulation”.
+3. Watch the right side: blue cells are being explored, dark cells are walls, yellow is the final path.`,
+      linear_regression:
+`You selected: Linear Regression
+
+Think of Linear Regression as:
+- Drawing a straight line that best fits a cloud of points.
+
+How to use:
+1. Keep the default learning rate and epochs.
+2. Click “Run Simulation”.
+3. Imagine dots on a graph and a line adjusting itself to fit them.`,
+      logistic_regression:
+`You selected: Logistic Regression
+
+Think of Logistic Regression as:
+- Separating two classes and giving a probability for each side.
+
+How to use:
+1. Keep the default values.
+2. Click “Run Simulation”.
+3. Imagine two colors of points and a boundary between them.`,
+      decision_tree:
+`You selected: Decision Tree
+
+Think of a Decision Tree as:
+- A flowchart of questions leading to a decision.
+
+How to use:
+1. Keep Max Depth small (like 5).
+2. Click “Run Simulation”.
+3. Imagine the tree splitting data into smaller and smaller groups.`,
+      random_forest:
+`You selected: Random Forest
+
+Think of Random Forest as:
+- Many decision trees voting together.
+
+How to use:
+1. Keep the number of trees at 50.
+2. Click “Run Simulation”.
+3. Imagine several trees each giving an answer, then majority wins.`,
+      knn:
+`You selected: k-Nearest Neighbors (k-NN)
+
+Think of k-NN as:
+- “Show me the closest examples and I’ll copy their label.”
+
+How to use:
+1. Keep k = 5 to start.
+2. Click “Run Simulation”.
+3. Imagine a new point looking at its neighbors to decide its color.`,
+      dbscan:
+`You selected: DBSCAN
+
+Think of DBSCAN as:
+- Finding dense groups of points and marking lonely ones as noise.
+
+How to use:
+1. Keep the default values.
+2. Click “Run Simulation”.
+3. Imagine clusters forming and some points being marked as outliers.`,
+      hierarchical:
+`You selected: Hierarchical Clustering
+
+Think of it as:
+- Building a tree of clusters from small to big.
+
+How to use:
+1. Keep the number of clusters at 3.
+2. Click “Run Simulation”.
+3. Imagine small groups merging into bigger groups step by step.`,
+      pca:
+`You selected: PCA
+
+Think of PCA as:
+- Compressing data into fewer dimensions while keeping as much information as possible.
+
+How to use:
+1. Keep components = 2.
+2. Click “Run Simulation”.
+3. Imagine a 3D cloud being projected onto a 2D plane.`,
+      dqn:
+`You selected: DQN
+
+Think of DQN as:
+- Q-Learning powered by a small neural network.
+
+How to use:
+1. Keep the default values.
+2. Click “Run Simulation”.
+3. Imagine the agent learning using a brain-like network instead of a table.`,
+      ppo:
+`You selected: PPO
+
+Think of PPO as:
+- Improving a behavior (policy) carefully so it doesn’t change too wildly.
+
+How to use:
+1. Keep the default values.
+2. Click “Run Simulation”.
+3. Imagine the agent trying new actions but staying stable.`,
+      hill_climbing:
+`You selected: Hill Climbing
+
+Think of it as:
+- Climbing uphill until you can’t go any higher.
+
+How to use:
+1. Keep Max Iterations as is.
+2. Click “Run Simulation”.
+3. Imagine a ball rolling uphill to a peak.`,
+      genetic:
+`You selected: Genetic Algorithm
+
+Think of it as:
+- Evolving solutions like nature evolves species.
+
+How to use:
+1. Keep the default population size.
+2. Click “Run Simulation”.
+3. Imagine many candidate solutions mixing and mutating over generations.`
+    };
+
+    function renderParams(algoKey) {
+      paramsContainer.innerHTML = "";
+      const config = paramConfigs[algoKey];
+      if (!config) {
+        paramsContainer.innerHTML = "<div class='panel-subtitle'>No specific parameters defined for this algorithm yet. You can still run the demo.</div>";
+        return;
+      }
+      config.forEach(p => {
+        const row = document.createElement("div");
+        row.className = "form-row";
+        const label = document.createElement("label");
+        label.textContent = p.label;
+        row.appendChild(label);
+
+        if (p.type === "select") {
+          const sel = document.createElement("select");
+          sel.id = "param-" + p.id;
+          p.options.forEach(opt => {
+            const o = document.createElement("option");
+            o.value = opt;
+            o.textContent = opt;
+            sel.appendChild(o);
+          });
+          row.appendChild(sel);
+        } else {
+          const input = document.createElement("input");
+          input.type = p.type;
+          input.id = "param-" + p.id;
+          if (p.step) input.step = p.step;
+          if (p.value !== undefined) input.value = p.value;
+          row.appendChild(input);
+        }
+
+        paramsContainer.appendChild(row);
+      });
+    }
+
+    function updateModelDesign(algoKey) {
+      const text = modelDesignText[algoKey] || "A simple diagram for this algorithm is not defined yet.\nYou can still run the simulation and observe the behavior.";
+      modelDiagramEl.textContent = text;
+    }
+
+    function updateGuide(algoKey) {
+      const text = guideText[algoKey] || guideText.default;
+      guideStepsEl.textContent = text;
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    algoButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        algoButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const key = btn.dataset.algo;
+        selectedAlgo = key;
+        const meta = algoMeta[key];
+
+        selectedAlgoNameEl.textContent = meta.name;
+        algoCategoryBadgeEl.textContent = meta.category;
+
+        renderParams(key);
+        updateModelDesign(key);
+        updateGuide(key);
+
+        outputLogEl.textContent =
+          `Selected algorithm: ${meta.name} (${meta.category}).\nFollow the guide in the middle panel, then click "Run Simulation".`;
+        vizStatusEl.textContent = "Ready";
+        vizHintEl.textContent = `Visualization will show how ${meta.name} behaves step by step.`;
+      });
+    });
+
+    runBtn.addEventListener("click", () => {
+      if (!selectedAlgo) {
+        alert("Please select an algorithm from the left panel first.");
+        return;
+      }
+
+      const meta = algoMeta[selectedAlgo];
+      vizStatusEl.textContent = "Running…";
+
+      const config = paramConfigs[selectedAlgo] || [];
+      const params = {};
+      config.forEach(p => {
+        const el = document.getElementById("param-" + p.id);
+        if (!el) return;
+        params[p.id] = el.value;
+      });
+
+      const targetCol = document.getElementById("target-column").value;
+
+      outputLogEl.textContent =
+        `Running simulation for: ${meta.name}\n` +
+        `Category: ${meta.category}\n\n` +
+        `Parameters:\n` +
+        (Object.keys(params).length
+          ? Object.entries(params).map(([k, v]) => `  • ${k}: ${v}`).join("\n")
+          : "  • (No specific parameters for this demo)") +
+        (targetCol ? `\n  • Target Column: ${targetCol}` : "") +
+        `\n\nThis is a learning demo. In a real app, these values would be sent to a backend (e.g., Python FastAPI/Flask) to train and return results for visualization.`;
+
+      if (selectedAlgo === "svm") {
+        visualizeSVM(params);
+      } else if (selectedAlgo === "kmeans") {
+        visualizeKMeans(params);
+      } else if (selectedAlgo === "a_star") {
+        visualizeAStar(params);
+      } else {
+        visualizeGeneric(meta);
+      }
+    });
+
+    function visualizeSVM(params) {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const margin = 40;
+      const steps = 60;
+      const C = parseFloat(params.C || "1.0");
+      const angle = (C / 10) * Math.PI;
+
+      for (let i = 0; i < steps; i++) {
+        for (let j = 0; j < steps; j++) {
+          const x = margin + (i / steps) * (w - 2 * margin);
+          const y = margin + (j / steps) * (h - 2 * margin);
+
+          const nx = x - w / 2;
+          const ny = y - h / 2;
+          const val = nx * Math.cos(angle) + ny * Math.sin(angle);
+
+          ctx.fillStyle = val > 0 ? "rgba(52,211,153,0.18)" : "rgba(239,68,68,0.18)";
+          ctx.fillRect(x, y, (w - 2 * margin) / steps + 1, (h - 2 * margin) / steps + 1);
+        }
+      }
+
+      ctx.strokeStyle = "#e5e7eb";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      const x1 = margin;
+      const y1 = h / 2 - Math.tan(angle) * (x1 - w / 2);
+      const x2 = w - margin;
+      const y2 = h / 2 - Math.tan(angle) * (x2 - w / 2);
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = "rgba(229,231,235,0.6)";
+      ctx.beginPath();
+      ctx.moveTo(x1, y1 - 20);
+      ctx.lineTo(x2, y2 - 20);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x1, y1 + 20);
+      ctx.lineTo(x2, y2 + 20);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      for (let i = 0; i < 40; i++) {
+        const px = margin + Math.random() * (w - 2 * margin);
+        const py = margin + Math.random() * (h - 2 * margin);
+        const nx = px - w / 2;
+        const ny = py - h / 2;
+        const val = nx * Math.cos(angle) + ny * Math.sin(angle);
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fillStyle = val > 0 ? "#22c55e" : "#ef4444";
+        ctx.fill();
+      }
+
+      vizStatusEl.textContent = "SVM decision boundary demo";
+      vizHintEl.textContent = "Green vs red regions show two classes; the white line is the separating boundary.";
+    }
+
+    function visualizeKMeans(params) {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const k = Math.max(2, parseInt(params.n_clusters || "3", 10));
+      const points = [];
+      const centroids = [];
+      const colors = ["#f97316", "#22c55e", "#3b82f6", "#e11d48", "#a855f7", "#14b8a6"];
+
+      for (let i = 0; i < 150; i++) {
+        points.push({
+          x: 40 + Math.random() * (w - 80),
+          y: 40 + Math.random() * (h - 80),
+          cluster: -1
+        });
+      }
+
+      for (let i = 0; i < k; i++) {
+        centroids.push({
+          x: 40 + Math.random() * (w - 80),
+          y: 40 + Math.random() * (h - 80)
+        });
+      }
+
+      let iter = 0;
+      const maxIter = Math.max(3, parseInt(params.max_iter || "10", 10));
+
+      function step() {
+        points.forEach(p => {
+          let best = 0;
+          let bestDist = Infinity;
+          centroids.forEach((c, idx) => {
+            const dx = p.x - c.x;
+            const dy = p.y - c.y;
+            const d = dx * dx + dy * dy;
+            if (d < bestDist) {
+              bestDist = d;
+              best = idx;
+            }
+          });
+          p.cluster = best;
+        });
+
+        const sums = Array(k).fill(0).map(() => ({ x: 0, y: 0, n: 0 }));
+        points.forEach(p => {
+          const s = sums[p.cluster];
+          s.x += p.x;
+          s.y += p.y;
+          s.n += 1;
+        });
+        sums.forEach((s, i) => {
+          if (s.n > 0) {
+            centroids[i].x = s.x / s.n;
+            centroids[i].y = s.y / s.n;
+          }
+        });
+
+        ctx.clearRect(0, 0, w, h);
+        points.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = colors[p.cluster % colors.length];
+          ctx.fill();
+        });
+
+        centroids.forEach((c, i) => {
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, 8, 0, Math.PI * 2);
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fill();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "#e5e7eb";
+          ctx.stroke();
+        });
+
+        iter++;
+        vizStatusEl.textContent = `K-Means iteration ${iter}/${maxIter}`;
+        vizHintEl.textContent = "Dots are data points; big circles are cluster centers moving until they settle.";
+
+        if (iter < maxIter) {
+          requestAnimationFrame(step);
+        } else {
+          vizStatusEl.textContent = "K-Means demo completed";
+        }
+      }
+
+      step();
+    }
+
+    function visualizeAStar(params) {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const N = Math.max(8, Math.min(40, parseInt(params.grid_size || "20", 10)));
+      const cellW = w / N;
+      const cellH = h / N;
+
+      const grid = [];
+      for (let y = 0; y < N; y++) {
+        const row = [];
+        for (let x = 0; x < N; x++) {
+          const isObstacle = Math.random() < 0.18;
+          row.push({ x, y, obstacle: isObstacle, visited: false, inPath: false });
+        }
+        grid.push(row);
+      }
+
+      const start = grid[0][0];
+      const goal = grid[N - 1][N - 1];
+      start.obstacle = false;
+      goal.obstacle = false;
+
+      const openSet = [start];
+      const cameFrom = new Map();
+      const gScore = new Map();
+      const fScore = new Map();
+
+      function key(n) { return `${n.x},${n.y}`; }
+
+      grid.flat().forEach(n => {
+        gScore.set(key(n), Infinity);
+        fScore.set(key(n), Infinity);
+      });
+      gScore.set(key(start), 0);
+      fScore.set(key(start), heuristic(start, goal));
+
+      function heuristic(a, b) {
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+      }
+
+      function neighbors(n) {
+        const res = [];
+        const dirs = [
+          [1, 0], [-1, 0], [0, 1], [0, -1]
+        ];
+        dirs.forEach(([dx, dy]) => {
+          const nx = n.x + dx;
+          const ny = n.y + dy;
+          if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
+            const nn = grid[ny][nx];
+            if (!nn.obstacle) res.push(nn);
+          }
+        });
+        return res;
+      }
+
+      function reconstructPath(current) {
+        while (cameFrom.has(key(current))) {
+          current.inPath = true;
+          current = cameFrom.get(key(current));
+        }
+        start.inPath = true;
+      }
+
+      function step() {
+        if (openSet.length === 0) {
+          drawGrid();
+          vizStatusEl.textContent = "No path found (demo)";
+          return;
+        }
+
+        let current = openSet[0];
+        let currentIdx = 0;
+        openSet.forEach((n, idx) => {
+          if (fScore.get(key(n)) < fScore.get(key(current))) {
+            current = n;
+            currentIdx = idx;
+          }
+        });
+
+        if (current === goal) {
+          reconstructPath(current);
+          drawGrid();
+          vizStatusEl.textContent = "A* path found (demo)";
+          vizHintEl.textContent = "Yellow cells show the final path from start (green) to goal (red).";
+          return;
+        }
+
+        openSet.splice(currentIdx, 1);
+        current.visited = true;
+
+        neighbors(current).forEach(nb => {
+          if (nb.visited) return;
+          const tentativeG = gScore.get(key(current)) + 1;
+          if (tentativeG < gScore.get(key(nb))) {
+            cameFrom.set(key(nb), current);
+            gScore.set(key(nb), tentativeG);
+            fScore.set(key(nb), tentativeG + heuristic(nb, goal));
+            if (!openSet.includes(nb)) openSet.push(nb);
+          }
+        });
+
+        drawGrid(openSet);
+        vizStatusEl.textContent = "A* exploring…";
+        vizHintEl.textContent = "Blue cells are being considered; dark cells are walls; yellow will be the final path.";
+
+        requestAnimationFrame(step);
+      }
+
+      function drawGrid(openSetLocal = []) {
+        ctx.clearRect(0, 0, w, h);
+        const openSetKeys = new Set(openSetLocal.map(n => key(n)));
+
+        grid.flat().forEach(n => {
+          const x = n.x * cellW;
+          const y = n.y * cellH;
+
+          if (n.obstacle) {
+            ctx.fillStyle = "#111827";
+          } else if (n.inPath) {
+            ctx.fillStyle = "#facc15";
+          } else if (openSetKeys.has(key(n))) {
+            ctx.fillStyle = "#3b82f6";
+          } else if (n.visited) {
+            ctx.fillStyle = "#1f2937";
+          } else {
+            ctx.fillStyle = "#020617";
+          }
+
+          ctx.fillRect(x, y, cellW, cellH);
+          ctx.strokeStyle = "rgba(31,41,55,0.6)";
+          ctx.strokeRect(x, y, cellW, cellH);
+        });
+
+        ctx.fillStyle = "#22c55e";
+        ctx.fillRect(start.x * cellW, start.y * cellH, cellW, cellH);
+        ctx.fillStyle = "#ef4444";
+        ctx.fillRect(goal.x * cellW, goal.y * cellH, cellW, cellH);
+      }
+
+      drawGrid();
+      step();
+    }
+
+    function visualizeGeneric(meta) {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h / 2;
+      let frame = 0;
+
+      function loop() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < 40; i++) {
+          const angle = (i / 40) * Math.PI * 2 + frame * 0.03;
+          const r = 80 + Math.sin(frame * 0.02 + i) * 20;
+          const x = cx + Math.cos(angle) * r;
+          const y = cy + Math.sin(angle) * r;
+
+          ctx.beginPath();
+          ctx.arc(x, y, 4, 0, Math.PI * 2);
+          ctx.fillStyle = "#6366f1";
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+        ctx.strokeStyle = "#e5e7eb";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = "#e5e7eb";
+        ctx.font = "14px system-ui";
+        ctx.textAlign = "center";
+        ctx.fillText(meta.name, cx, cy + 4);
+
+        frame++;
+        if (frame < 200) {
+          requestAnimationFrame(loop);
+        } else {
+          vizStatusEl.textContent = "Demo completed";
+          vizHintEl.textContent = "You can change parameters or pick another algorithm to see a different behavior.";
+        }
+      }
+
+      vizStatusEl.textContent = "Generic visualization demo";
+      vizHintEl.textContent = "Animated nodes represent information flowing and updating inside the algorithm.";
+      loop();
+    }
+  </script>
+</body>
+</html>
